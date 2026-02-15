@@ -11,6 +11,12 @@ if(process.env.NODE_ENV === "production"){
       app.set("trust proxy", 1);
 }
 
+app.use(
+  cors({
+    origin: process.env.FRONTEND_REDIRECT_URL,
+    credentials: true,
+  })
+);
 
 app.use(cookieParser("cookie-secret"))
 
