@@ -7,7 +7,11 @@ import cookieParser from "cookie-parser";
 const app = express();
 const PORT = 1500;
 
-app.use(cors())
+if(process.env.NODE_ENV === "production"){
+      app.set("trust proxy", 1);
+}
+
+
 app.use(cookieParser("cookie-secret"))
 
 app.get("/set-cookie", (req, res) => {
@@ -23,6 +27,24 @@ app.get("/set-cookie", (req, res) => {
   });
 
   return res.redirect(process.env.FRONTEND_REDIRECT_URL);
+});
+
+app.post("/secure/set-cookie", (req, res) => {
+    console.log("/secure/set-cookie")
+  // JSON response
+  const data = { message: "Cookie has been set successfully!" };
+
+    res.cookie("myCookie", "cookieValue", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    signed: true,
+    maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+  });
+
+  return res.json({
+    ...data , success: true
+  });
 });
 
 app.listen(PORT, () => {
