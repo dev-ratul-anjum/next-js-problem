@@ -20,6 +20,10 @@ app.use(
 
 app.use(cookieParser("cookie-secret"))
 
+app.get("/fetch/set-cookie", (req, res) =>{
+    res.redirect("/set-cookie")
+})
+
 app.get("/set-cookie", (req, res) => {
   // JSON response
   const data = { message: "Cookie has been set successfully!" };
