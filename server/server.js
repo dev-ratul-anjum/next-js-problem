@@ -18,7 +18,7 @@ app.use(
   })
 );
 
-app.use(cookieParser("cookie-secret"))
+// app.use(cookieParser("cookie-secret"))
 
 app.get("/fetch/set-cookie", (req, res) =>{
     res.redirect("/set-cookie")
@@ -48,7 +48,7 @@ app.post("/secure/set-cookie", (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    signed: true,
+    // signed: true,
     maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
   });
 
